@@ -29,22 +29,34 @@ const router = createRouter({
           meta: { title: '用户管理', icon: 'User' }
         },
         {
-          path: 'device',
-          name: 'Device',
-          component: () => import('@/views/device/index.vue'),
-          meta: { title: '设备管理', icon: 'Monitor' }
+          path: 'agriculture',
+          name: 'Agriculture',
+          component: () => import('@/views/agriculture/index.vue'),
+          meta: { title: '农业产业信息化', icon: 'Platform' }
         },
         {
-          path: 'resource',
-          name: 'Resource',
-          component: () => import('@/views/resource/index.vue'),
-          meta: { title: '资源管理', icon: 'Connection' }
+          path: 'public-service',
+          name: 'PublicService',
+          component: () => import('@/views/public-service/index.vue'),
+          meta: { title: '政务便民服务', icon: 'OfficeBuilding' }
         },
         {
-          path: 'data',
-          name: 'Data',
-          component: () => import('@/views/data/index.vue'),
-          meta: { title: '数据服务', icon: 'DataLine' }
+          path: 'village',
+          name: 'Village',
+          component: () => import('@/views/village/index.vue'),
+          meta: { title: '村务管理', icon: 'HomeFilled' }
+        },
+        {
+          path: 'grid',
+          name: 'Grid',
+          component: () => import('@/views/grid/index.vue'),
+          meta: { title: '网格化管理', icon: 'Menu' }
+        },
+        {
+          path: 'emergency',
+          name: 'Emergency',
+          component: () => import('@/views/emergency/index.vue'),
+          meta: { title: '应急指挥', icon: 'Warning' }
         },
         {
           path: 'monitor',
@@ -52,36 +64,42 @@ const router = createRouter({
           component: () => import('@/views/monitor/index.vue'),
           meta: { title: '监控告警', icon: 'Warning' }
         },
-        // {
-        //   path: 'asset',
-        //   name: 'Asset',
-        //   component: () => import('@/views/asset/index.vue'),
-        //   meta: { title: '资产台账', icon: 'Suitcase' }
-        // },
-        // {
-        //   path: 'ticket',
-        //   name: 'Ticket',
-        //   component: () => import('@/views/ticket/index.vue'),
-        //   meta: { title: '运维工单', icon: 'Tickets' }
-        // },
-        {
-          path: 'health',
-          name: 'Health',
-          component: () => import('@/views/health/index.vue'),
-          meta: { title: '服务健康', icon: 'CircleCheck' }
-        },
         {
           path: 'system',
           name: 'System',
           component: () => import('@/views/system/index.vue'),
           meta: { title: '业务系统', icon: 'Cpu' }
         },
-        {
-          path: 'energy',
-          name: 'Energy',
-          component: () => import('@/views/energy/index.vue'),
-          meta: { title: '能耗监控', icon: 'PieChart' }
-        },
+        // {
+        //   path: 'device',
+        //   name: 'Device',
+        //   component: () => import('@/views/device/index.vue'),
+        //   meta: { title: '设备管理', icon: 'Monitor' }
+        // },
+        // {
+        //   path: 'resource',
+        //   name: 'Resource',
+        //   component: () => import('@/views/resource/index.vue'),
+        //   meta: { title: '资源管理', icon: 'Connection' }
+        // },
+        // {
+        //   path: 'data',
+        //   name: 'Data',
+        //   component: () => import('@/views/data/index.vue'),
+        //   meta: { title: '数据服务', icon: 'DataLine' }
+        // },
+        // {
+        //   path: 'health',
+        //   name: 'Health',
+        //   component: () => import('@/views/health/index.vue'),
+        //   meta: { title: '服务健康', icon: 'CircleCheck' }
+        // },
+        // {
+        //   path: 'energy',
+        //   name: 'Energy',
+        //   component: () => import('@/views/energy/index.vue'),
+        //   meta: { title: '能耗监控', icon: 'PieChart' }
+        // },
         {
           path: 'backup',
           name: 'Backup',
@@ -89,17 +107,11 @@ const router = createRouter({
           meta: { title: '备份任务', icon: 'DocumentCopy' }
         },
         // {
-        //   path: 'log',
-        //   name: 'Log',
-        //   component: () => import('@/views/log/index.vue'),
-        //   meta: { title: '操作日志', icon: 'Document' }
-        // },
-        {
-          path: 'hardware',
-          name: 'Hardware',
-          component: () => import('@/views/hardware/index.vue'),
-          meta: { title: '硬件资源管理', icon: 'Connection' }
-        }
+        //   path: 'hardware',
+        //   name: 'Hardware',
+        //   component: () => import('@/views/hardware/index.vue'),
+        //   meta: { title: '硬件资源管理', icon: 'Connection' }
+        // }
       ]
     }
   ]
