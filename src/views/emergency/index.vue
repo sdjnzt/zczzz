@@ -301,8 +301,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import * as echarts from 'echarts'
+import { ref, reactive } from 'vue'
 import { ArrowDown } from '@element-plus/icons-vue'
 
 // 当前激活的标签页

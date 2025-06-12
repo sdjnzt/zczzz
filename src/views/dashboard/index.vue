@@ -121,7 +121,7 @@
                 :percentage="row.usage || 0"
                 :status="row.usage > 80 ? 'exception' : row.usage > 60 ? 'warning' : 'success'"
                 :stroke-width="8"
-                :format="(p) => `${p}%`"
+                :format="(p: number) => `${p}%`"
               />
             </template>
           </el-table-column>
@@ -192,17 +192,13 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, reactive, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
+  import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
   import * as echarts from 'echarts'
   import { 
     Operation, 
     TrendCharts, 
     Warning, 
     WarningFilled,
-    Tickets, 
-    HomeFilled, 
-    Crop, 
-    FirstAidKit, 
     Refresh,
     RefreshRight,
     View,
@@ -252,34 +248,6 @@
       type: 'danger'
     }
   ]
-  
-  // 统计数据
-  const systemStats = ref({
-    total: 6,
-    running: 18,
-    warning: 0,
-    error: 0
-  })
-  
-  const hardwareStats = ref({
-    total: 4,
-    normal: 4,
-    warning: 0,
-    error: 0
-  })
-  
-  const storageStats = ref({
-    total: 20,
-    used: 9,
-    free: 11
-  })
-  
-  const loadStats = ref({
-    cpu: 65,
-    memory: 78,
-    storage: 45,
-    network: 32
-  })
   
   // 时间范围选择
   const timeRange = ref('day')

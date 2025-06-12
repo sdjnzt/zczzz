@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="staffList"
+    :data="data"
     style="width: 100%"
     border
     stripe
@@ -43,9 +43,9 @@ interface StaffItem {
   status: '在岗' | '请假'
 }
 
-const props = defineProps<{
-  staffList: StaffItem[]
-  loading: boolean
+defineProps<{
+  data: any[];
+  loading: boolean;
 }>()
 
 const emit = defineEmits<{

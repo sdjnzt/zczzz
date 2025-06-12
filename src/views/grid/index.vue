@@ -55,7 +55,7 @@
           </div>
 
           <StaffTable
-            :staff-list="staffList"
+            :data="staffList"
             :loading="tableLoading"
             @view="viewStaff"
             @edit="editStaff"
@@ -223,20 +223,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, watch, nextTick, defineComponent } from 'vue'
+import { ref, reactive, onMounted, watch, nextTick } from 'vue'
 import {
-  ArrowDown,
   Refresh,
-  Download,
   Search,
   Plus,
   View,
   Edit,
-  Delete,
-  User,
-  Grid,
-  Warning,
-  DataLine
+  Delete
 } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CommonDialog from '@/components/CommonDialog.vue'
@@ -272,16 +266,6 @@ interface FormData {
   status: string
 }
 
-interface GridItem {
-  id: number
-  name: string
-  manager: string
-  population: number
-  households: number
-  area: string
-  status: '正常' | '异常'
-}
-
 interface StaffItem {
   id: number
   name: string
@@ -289,13 +273,6 @@ interface StaffItem {
   grid: string
   area: string
   status: '在岗' | '请假'
-}
-
-// 定义表格列的类型
-interface TableColumnProps {
-  row: StaffItem
-  column: any
-  $index: number
 }
 
 // 加载状态
@@ -557,19 +534,6 @@ const initEventTrendChart = () => {
   })
 }
 
-// 刷新数据
-const refreshData = () => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-  }, 1000)
-}
-
-// 导出数据
-const exportData = () => {
-  console.log('导出数据')
-}
-
 // 分页相关方法
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -604,9 +568,7 @@ const resetSearch = () => {
 const handleAddStaff = () => {
   dialogTitle.value = '新增网格员'
   Object.keys(formData).forEach(key => {
-    if (key in formData) {
-      (formData as any)[key] = key === 'status' ? '在岗' : ''
-    }
+    (formData as any)[key] = key === 'status' ? '在岗' : ''
   })
   dialogVisible.value = true
 }
@@ -614,9 +576,7 @@ const handleAddStaff = () => {
 const viewStaff = (row: StaffItem) => {
   dialogTitle.value = '查看网格员'
   Object.keys(formData).forEach(key => {
-    if (key in formData) {
-      (formData as any)[key] = (row as any)[key]
-    }
+    (formData as any)[key] = (row as any)[key]
   })
   dialogVisible.value = true
 }
@@ -624,20 +584,18 @@ const viewStaff = (row: StaffItem) => {
 const editStaff = (row: StaffItem) => {
   dialogTitle.value = '编辑网格员'
   Object.keys(formData).forEach(key => {
-    if (key in formData) {
-      (formData as any)[key] = (row as any)[key]
-    }
+    (formData as any)[key] = (row as any)[key]
   })
   dialogVisible.value = true
 }
 
 const deleteStaff = (row: StaffItem) => {
-  ElMessageBox.confirm('确定要删除该网格员信息吗？', '提示', {
+  ElMessageBox.confirm(`确定要删除网格员"${row.name}"吗？`, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    // 这里添加删除逻辑
+    // 删除网格员逻辑
     ElMessage.success('删除成功')
   }).catch(() => {})
 }
@@ -700,7 +658,6 @@ const formData = reactive<FormData>({
   area: '',
   status: '正常'
 })
-
 const formRules = {
   name: [{ required: true, message: '请输入网格名称', trigger: 'blur' }],
   manager: [{ required: true, message: '请输入网格长姓名', trigger: 'blur' }],
@@ -710,100 +667,20 @@ const formRules = {
   status: [{ required: true, message: '请选择状态', trigger: 'change' }]
 }
 
-// 定义组件
-const GridManagement = defineComponent({
-  name: 'GridManagement',
-  setup() {
-    // 对话框相关
-    const dialogVisible = ref(false)
-    const dialogTitle = ref('')
-    const formData = reactive<FormData>({
-      name: '',
-      manager: '',
-      population: '',
-      households: '',
-      area: '',
-      status: '正常'
-    })
-
-    const formRules = {
-      name: [{ required: true, message: '请输入网格名称', trigger: 'blur' }],
-      manager: [{ required: true, message: '请输入网格长姓名', trigger: 'blur' }],
-      population: [{ required: true, message: '请输入人口数量', trigger: 'blur' }],
-      households: [{ required: true, message: '请输入户数', trigger: 'blur' }],
-      area: [{ required: true, message: '请输入面积', trigger: 'blur' }],
-      status: [{ required: true, message: '请选择状态', trigger: 'change' }]
-    }
-
-    // 网格管理相关方法
-    const handleAdd = () => {
-      dialogTitle.value = '新增网格'
-      Object.keys(formData).forEach(key => {
-        if (key in formData) {
-          (formData as any)[key] = key === 'status' ? '正常' : ''
-        }
-      })
-      dialogVisible.value = true
-    }
-
-    const viewGrid = (row: GridItem) => {
-      dialogTitle.value = '查看网格'
-      Object.keys(formData).forEach(key => {
-        if (key in formData) {
-          (formData as any)[key] = (row as any)[key]
-        }
-      })
-      dialogVisible.value = true
-    }
-
-    const editGrid = (row: GridItem) => {
-      dialogTitle.value = '编辑网格'
-      Object.keys(formData).forEach(key => {
-        if (key in formData) {
-          (formData as any)[key] = (row as any)[key]
-        }
-      })
-      dialogVisible.value = true
-    }
-
-    const deleteGrid = (row: GridItem) => {
-      ElMessageBox.confirm('确定要删除该网格信息吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        gridMethods.delete(row.id)
-        ElMessage.success('删除成功')
-      }).catch(() => {})
-    }
-
-    const handleSubmit = (formData: FormData) => {
-      if (dialogTitle.value === '新增网格') {
-        gridMethods.add(formData)
-        ElMessage.success('添加成功')
-      } else if (dialogTitle.value === '编辑网格') {
-        const id = gridList.value.find(item => item.name === formData.name)?.id
-        if (id) {
-          gridMethods.update(id, formData)
-          ElMessage.success('更新成功')
-        }
-      }
-      dialogVisible.value = false
-    }
-
-    return {
-      dialogVisible,
-      dialogTitle,
-      formData,
-      formRules,
-      handleAdd,
-      viewGrid,
-      editGrid,
-      deleteGrid,
-      handleSubmit
+// 网格员管理相关方法
+const handleSubmit = (formData: FormData) => {
+  if (dialogTitle.value === '新增网格') {
+    gridMethods.add(formData)
+    ElMessage.success('添加成功')
+  } else if (dialogTitle.value === '编辑网格') {
+    const id = gridList.value.find(item => item.name === formData.name)?.id
+    if (id) {
+      gridMethods.update(id, formData)
+      ElMessage.success('更新成功')
     }
   }
-})
+  dialogVisible.value = false
+}
 </script>
 
 <style scoped>

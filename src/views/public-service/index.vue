@@ -113,15 +113,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import {
-  Document,
-  House,
-  School,
-  FirstAidKit,
-  User,
-  Money,
-  OfficeBuilding,
-  Setting,
-  ArrowDown,
   Plus,
   View,
   Edit,

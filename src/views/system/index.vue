@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { Monitor, Platform, Cpu, DataLine, Warning, Box, Folder, User, Calendar, DataAnalysis, Service, FirstAidKit, Connection } from '@element-plus/icons-vue'
+import { Monitor, Platform, Cpu, DataLine, Warning, Box, Folder, DataAnalysis } from '@element-plus/icons-vue'
 
 interface SystemItem {
   id: number;

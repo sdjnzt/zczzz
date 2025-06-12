@@ -310,7 +310,9 @@
       </div>
       <template #footer>
         <el-button @click="logDialogVisible = false">关闭</el-button>
-        <el-button type="primary" @click="downloadLogs">下载日志</el-button>
+        <el-button type="primary" @click="handleDownloadLogs">
+          <el-icon><Download /></el-icon>下载日志
+        </el-button>
       </template>
     </el-dialog>
   </div>
@@ -437,6 +439,29 @@ const backupForm = reactive<BackupItem>({
   lastRunTime: '',
   desc: ''
 })
+
+// 添加表单校验规则
+const backupRules = {
+  name: [
+    { required: true, message: '请输入任务名称', trigger: 'blur' },
+    { min: 3, max: 50, message: '长度在 3 到 50 个字符', trigger: 'blur' }
+  ],
+  owner: [
+    { required: true, message: '请输入负责人', trigger: 'blur' }
+  ],
+  type: [
+    { required: true, message: '请选择备份类型', trigger: 'change' }
+  ],
+  source: [
+    { required: true, message: '请输入源路径', trigger: 'blur' }
+  ],
+  target: [
+    { required: true, message: '请输入目标路径', trigger: 'blur' }
+  ],
+  schedule: [
+    { required: true, message: '请选择执行计划', trigger: 'change' }
+  ]
+}
 
 // 日志对话框
 const logDialogVisible = ref(false)
@@ -578,6 +603,113 @@ const handleRun = (row: BackupItem) => {
     ElMessage.success('备份任务已启动')
     // 在实际应用中，这里会调用API启动备份任务
   }).catch(() => {})
+}
+
+// 新增备份任务
+const handleAdd = () => {
+  dialogType.value = 'add'
+  backupForm.id = 0
+  backupForm.name = ''
+  backupForm.owner = ''
+  backupForm.type = 'full'
+  backupForm.source = ''
+  backupForm.target = ''
+  backupForm.schedule = 'daily'
+  backupForm.status = 'waiting'
+  backupForm.progress = 0
+  backupForm.lastRunTime = ''
+  backupForm.desc = ''
+  backupForm.customTime = ''
+  
+  dialogVisible.value = true
+}
+
+// 编辑备份任务
+const handleEdit = (row: BackupItem) => {
+  dialogType.value = 'edit'
+  backupForm.id = row.id
+  backupForm.name = row.name
+  backupForm.owner = row.owner
+  backupForm.type = row.type
+  backupForm.source = row.source || ''
+  backupForm.target = row.target || ''
+  backupForm.schedule = row.schedule
+  backupForm.status = row.status
+  backupForm.progress = row.progress
+  backupForm.lastRunTime = row.lastRunTime
+  backupForm.desc = row.desc || ''
+  backupForm.customTime = row.customTime || ''
+  
+  dialogVisible.value = true
+}
+
+// 删除备份任务
+const handleDelete = (row: BackupItem) => {
+  ElMessageBox.confirm(`确定要删除备份任务"${row.name}"吗？此操作不可恢复!`, '警告', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    // 在实际应用中，这里会调用API删除备份任务
+    const index = originalBackupList.value.findIndex(item => item.id === row.id)
+    if (index !== -1) {
+      originalBackupList.value.splice(index, 1)
+      handleSearch() // 刷新列表
+    }
+    ElMessage.success('删除成功')
+  }).catch(() => {})
+}
+
+// 提交表单
+const handleSubmit = () => {
+  if (!backupFormRef.value) return
+  
+  backupFormRef.value!.validate((valid: boolean): void => {
+    if (valid) {
+      if (dialogType.value === 'add') {
+        // 在实际应用中，这里会调用API新增备份任务
+        const newId = Math.max(...originalBackupList.value.map(item => item.id)) + 1
+        const now = new Date()
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+        
+        const newBackup: BackupItem = {
+          id: newId,
+          name: backupForm.name,
+          owner: backupForm.owner,
+          type: backupForm.type,
+          source: backupForm.source,
+          target: backupForm.target,
+          schedule: backupForm.schedule,
+          status: 'waiting',
+          progress: 0,
+          lastRunTime: formattedDate,
+          desc: backupForm.desc,
+          customTime: backupForm.customTime
+        }
+        
+        originalBackupList.value.push(newBackup)
+        ElMessage.success('添加成功')
+      } else {
+        // 在实际应用中，这里会调用API更新备份任务
+        const index = originalBackupList.value.findIndex(item => item.id === backupForm.id)
+        if (index !== -1) {
+          originalBackupList.value[index] = { ...originalBackupList.value[index], ...backupForm }
+          ElMessage.success('更新成功')
+        }
+      }
+      
+      dialogVisible.value = false
+      handleSearch() // 刷新列表
+    } else {
+      ElMessage.error('表单验证失败，请检查输入')
+    }
+  })
+}
+
+// 下载日志
+const handleDownloadLogs = () => {
+  ElMessage.success('日志下载中...')
+  // 在实际应用中，这里会调用API下载日志文件
 }
 
 // 初始化数据
