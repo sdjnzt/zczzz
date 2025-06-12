@@ -286,17 +286,17 @@
   
   // 系统列表数据
   const systemList = ref([
-    { id: 1, systemName: '政务便民服务平台', owner: '王晓强', status: '运行中', updateTime: '2024-05-01 09:00', usage: 78, type: 'public' },
-    { id: 2, systemName: '村务管理系统', owner: '李文娜', status: '运行中', updateTime: '2024-05-01 08:30', usage: 65, type: 'village' },
-    { id: 3, systemName: '农业信息化平台', owner: '刘志洋', status: '运行中', updateTime: '2024-05-22 17:00', usage: 42, type: 'agriculture' },
-    { id: 4, systemName: '应急指挥系统', owner: '张丽敏', status: '运行中', updateTime: '2024-05-22 16:00', usage: 30, type: 'emergency' }
+    { id: 1, systemName: '政务便民服务平台', owner: '王晓强', status: '运行中', updateTime: '2025-05-01 09:00', usage: 78, type: 'public' },
+    { id: 2, systemName: '村务管理系统', owner: '李文娜', status: '运行中', updateTime: '2025-05-01 08:30', usage: 65, type: 'village' },
+    { id: 3, systemName: '农业信息化平台', owner: '刘志洋', status: '运行中', updateTime: '2025-05-22 17:00', usage: 42, type: 'agriculture' },
+    { id: 4, systemName: '应急指挥系统', owner: '张丽敏', status: '运行中', updateTime: '2025-05-22 16:00', usage: 30, type: 'emergency' }
   ])
   
   // 告警列表
   const alarmList = ref([
-    { type: 'warning', time: '2024-05-01 10:30', content: '存储空间使用率超过70%' },
-    { type: 'info', time: '2024-05-01 09:15', content: '系统例行维护完成' },
-    { type: 'success', time: '2024-05-01 08:00', content: '数据备份任务完成' }
+    { type: 'warning', time: '2025-05-01 10:30', content: '存储空间使用率超过70%' },
+    { type: 'info', time: '2025-05-01 09:15', content: '系统例行维护完成' },
+    { type: 'success', time: '2025-05-01 08:00', content: '数据备份任务完成' }
   ])
   
   // 加载状态

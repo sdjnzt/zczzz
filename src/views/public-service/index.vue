@@ -171,21 +171,21 @@ const guideList = ref([
     id: 1,
     title: '城乡居民养老保险办理指南',
     department: '社保中心',
-    updateTime: '2024-03-15 10:00',
+    updateTime: '2025-05-15 10:00',
     views: 1250
   },
   {
     id: 2,
     title: '新生儿落户办理流程',
     department: '派出所',
-    updateTime: '2024-03-14 15:30',
+    updateTime: '2025-05-14 15:30',
     views: 980
   },
   {
     id: 3,
     title: '个体工商户注册登记指南',
     department: '市场监督管理局',
-    updateTime: '2024-03-13 09:15',
+    updateTime: '2025-05-13 09:15',
     views: 1560
   }
 ])
@@ -202,7 +202,7 @@ const consultationList = ref([
     user: '张先生',
     department: '社保中心',
     status: '已回复',
-    createTime: '2024-03-15 14:30'
+    createTime: '2025-05-15 14:30'
   },
   {
     id: 2,
@@ -210,7 +210,7 @@ const consultationList = ref([
     user: '李女士',
     department: '医保局',
     status: '待回复',
-    createTime: '2024-03-15 16:45'
+    createTime: '2025-05-15 16:45'
   }
 ])
 const consultationLoading = ref(false)

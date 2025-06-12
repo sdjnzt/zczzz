@@ -340,7 +340,7 @@ const warningList = ref([
     type: '气象预警',
     level: '橙色预警',
     area: '张庄镇全域',
-    publishTime: '2024-03-15 08:00',
+    publishTime: '2025-05-15 08:00',
     status: '生效中'
   },
   {
@@ -349,7 +349,7 @@ const warningList = ref([
     type: '气象预警',
     level: '黄色预警',
     area: '张庄镇北部',
-    publishTime: '2024-03-15 10:30',
+    publishTime: '2025-05-15 10:30',
     status: '已解除'
   }
 ])
@@ -362,7 +362,7 @@ const eventList = ref([
     type: '自然灾害',
     level: '一般',
     location: '张庄村主干道',
-    reportTime: '2024-03-15 09:15',
+    reportTime: '2025-05-15 09:15',
     status: '处理中'
   },
   {
@@ -371,7 +371,7 @@ const eventList = ref([
     type: '自然灾害',
     level: '一般',
     location: '李庄村道路',
-    reportTime: '2024-03-15 11:20',
+    reportTime: '2025-05-15 11:20',
     status: '待处理'
   }
 ])
@@ -385,7 +385,7 @@ const resourceList = ref([
     quantity: '20人',
     location: '镇政府',
     status: '可用',
-    updateTime: '2024-03-15 08:00'
+    updateTime: '2025-05-15 08:00'
   },
   {
     id: 2,
@@ -394,7 +394,7 @@ const resourceList = ref([
     quantity: '5台',
     location: '物资仓库',
     status: '可用',
-    updateTime: '2024-03-15 08:00'
+    updateTime: '2025-05-15 08:00'
   }
 ])
 
@@ -406,7 +406,7 @@ const planList = ref([
     type: '自然灾害',
     level: '一级',
     department: '应急管理办公室',
-    updateTime: '2024-03-01',
+    updateTime: '2025-05-01',
     status: '已启用'
   },
   {
@@ -415,7 +415,7 @@ const planList = ref([
     type: '公共卫生',
     level: '二级',
     department: '卫生健康办公室',
-    updateTime: '2024-02-15',
+    updateTime: '2025-02-15',
     status: '已启用'
   }
 ])

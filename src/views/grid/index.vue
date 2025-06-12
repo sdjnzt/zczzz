@@ -399,16 +399,16 @@ const staffList = ref<StaffItem[]>([
 
 // 事件列表数据
 const eventList = ref([
-  { id: 1, title: '张庄镇北区新村2号楼下水管道堵塞', type: '基础设施', grid: '张庄镇北区网格', reporter: '居民王大明', reportTime: '2023-09-15 08:30', status: '待处理' },
-  { id: 2, title: '张庄镇南区幸福里小区垃圾清运不及时', type: '环境卫生', grid: '张庄镇南区网格', reporter: '网格员李建国', reportTime: '2023-09-14 14:20', status: '处理中' },
-  { id: 3, title: '张庄镇中心区商业街店铺与居民噪音纠纷', type: '矛盾纠纷', grid: '张庄镇中心区网格', reporter: '商户张老板', reportTime: '2023-09-13 09:15', status: '已完成' },
-  { id: 4, title: '张庄镇东区阳光社区5栋电线老化需更换', type: '安全隐患', grid: '张庄镇东区网格', reporter: '物业刘经理', reportTime: '2023-09-12 11:40', status: '待处理' },
-  { id: 5, title: '张庄镇西区西湖家园公共健身设施损坏', type: '基础设施', grid: '张庄镇西区网格', reporter: '居民老张', reportTime: '2023-09-11 16:50', status: '处理中' },
-  { id: 6, title: '张庄镇中心区振兴路夜市摊位扰民投诉', type: '矛盾纠纷', grid: '张庄镇中心区网格', reporter: '居民李大爷', reportTime: '2023-09-10 19:25', status: '待处理' },
-  { id: 7, title: '张庄镇北区光明小区雨后积水严重', type: '基础设施', grid: '张庄镇北区网格', reporter: '网格员张志强', reportTime: '2023-09-09 08:30', status: '处理中' },
-  { id: 8, title: '张庄镇农业园区智慧农业区灌溉系统故障', type: '基础设施', grid: '张庄镇农业园区网格', reporter: '工作人员小李', reportTime: '2023-09-08 10:10', status: '已完成' },
-  { id: 9, title: '张庄镇东区长兴路路灯不亮', type: '基础设施', grid: '张庄镇东区网格', reporter: '居民陈大姐', reportTime: '2023-09-07 17:20', status: '待处理' },
-  { id: 10, title: '张庄镇西区康居苑小区门禁系统故障', type: '安全隐患', grid: '张庄镇西区网格', reporter: '物业王经理', reportTime: '2023-09-06 12:00', status: '处理中' }
+  { id: 1, title: '张庄镇北区新村2号楼下水管道堵塞', type: '基础设施', grid: '张庄镇北区网格', reporter: '居民王大明', reportTime: '2025-05-15 08:30', status: '待处理' },
+  { id: 2, title: '张庄镇南区幸福里小区垃圾清运不及时', type: '环境卫生', grid: '张庄镇南区网格', reporter: '网格员李建国', reportTime: '2025-05-14 14:20', status: '处理中' },
+  { id: 3, title: '张庄镇中心区商业街店铺与居民噪音纠纷', type: '矛盾纠纷', grid: '张庄镇中心区网格', reporter: '商户张老板', reportTime: '2025-05-13 09:15', status: '已完成' },
+  { id: 4, title: '张庄镇东区阳光社区5栋电线老化需更换', type: '安全隐患', grid: '张庄镇东区网格', reporter: '物业刘经理', reportTime: '2025-05-12 11:40', status: '待处理' },
+  { id: 5, title: '张庄镇西区西湖家园公共健身设施损坏', type: '基础设施', grid: '张庄镇西区网格', reporter: '居民老张', reportTime: '2025-05-11 16:50', status: '处理中' },
+  { id: 6, title: '张庄镇中心区振兴路夜市摊位扰民投诉', type: '矛盾纠纷', grid: '张庄镇中心区网格', reporter: '居民李大爷', reportTime: '2025-05-10 19:25', status: '待处理' },
+  { id: 7, title: '张庄镇北区光明小区雨后积水严重', type: '基础设施', grid: '张庄镇北区网格', reporter: '网格员张志强', reportTime: '2025-05-09 08:30', status: '处理中' },
+  { id: 8, title: '张庄镇农业园区智慧农业区灌溉系统故障', type: '基础设施', grid: '张庄镇农业园区网格', reporter: '工作人员小李', reportTime: '2025-05-08 10:10', status: '已完成' },
+  { id: 9, title: '张庄镇东区长兴路路灯不亮', type: '基础设施', grid: '张庄镇东区网格', reporter: '居民陈大姐', reportTime: '2025-05-07 17:20', status: '待处理' },
+  { id: 10, title: '张庄镇西区康居苑小区门禁系统故障', type: '安全隐患', grid: '张庄镇西区网格', reporter: '物业王经理', reportTime: '2025-05-06 12:00', status: '处理中' }
 ])
 
 // 图表引用

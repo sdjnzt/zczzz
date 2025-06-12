@@ -182,7 +182,7 @@ const policyList = ref([
     title: '关于推进智慧农业建设的指导意见',
     type: '指导',
     department: '信息化办公室',
-    publishDate: '2025-04-01',
+    publishDate: '2025-05-01',
     status: '已生效'
   },
   {
@@ -190,7 +190,7 @@ const policyList = ref([
     title: '农产品质量安全监管办法',
     type: '监管',
     department: '市场监管所',
-    publishDate: '2025-04-10',
+    publishDate: '2025-05-10',
     status: '已生效'
   },
   {
@@ -198,7 +198,7 @@ const policyList = ref([
     title: '关于开展农机购置补贴的通知',
     type: '补贴',
     department: '农业办公室',
-    publishDate: '2025-04-15',
+    publishDate: '2025-05-15',
     status: '已生效'
   },
   {
@@ -206,7 +206,7 @@ const policyList = ref([
     title: '绿色农业发展激励政策',
     type: '激励',
     department: '生态环境办公室',
-    publishDate: '2025-04-20',
+    publishDate: '2025-05-20',
     status: '已生效'
   },
   {
@@ -214,7 +214,7 @@ const policyList = ref([
     title: '关于加强农产品品牌建设的通知',
     type: '品牌',
     department: '农业办公室',
-    publishDate: '2025-04-25',
+    publishDate: '2025-05-25',
     status: '已生效'
   }
 ])
@@ -276,7 +276,7 @@ const initTrendChart = () => {
     },
     xAxis: {
       type: 'category',
-      data: ['2020', '2021', '2022', '2023', '2024', '2025']
+      data: ['2020', '2021', '2022', '2025', '2025', '2025']
     },
     yAxis: {
       type: 'value',
