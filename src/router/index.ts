@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+// 预加载关键路由组件
+import Layout from '@/views/layout/index.vue'
+import Dashboard from '@/views/dashboard/index.vue'
+import Login from '@/views/login/index.vue'
+
 const router = createRouter({
   history: createWebHistory('/zczzz/'),
   routes: [
@@ -10,52 +15,52 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/views/login/index.vue')
+      component: Login
     },
     {
       path: '/',
-      component: () => import('@/views/layout/index.vue'),
+      component: Layout,
       children: [
         {
           path: 'dashboard',
           name: 'Dashboard',
-          component: () => import('@/views/dashboard/index.vue'),
+          component: Dashboard,
           meta: { title: '首页', icon: 'House' }
         },
         {
           path: 'user',
           name: 'User',
-          component: () => import('@/views/user/index.vue'),
+          component: () => import(/* webpackChunkName: "user" */ '@/views/user/index.vue'),
           meta: { title: '用户管理', icon: 'User' }
         },
         {
           path: 'agriculture',
           name: 'Agriculture',
-          component: () => import('@/views/agriculture/index.vue'),
+          component: () => import(/* webpackChunkName: "agriculture" */ '@/views/agriculture/index.vue'),
           meta: { title: '农业产业信息化', icon: 'Platform' }
         },
         {
           path: 'public-service',
           name: 'PublicService',
-          component: () => import('@/views/public-service/index.vue'),
+          component: () => import(/* webpackChunkName: "public-service" */ '@/views/public-service/index.vue'),
           meta: { title: '政务便民服务', icon: 'OfficeBuilding' }
         },
         {
           path: 'village',
           name: 'Village',
-          component: () => import('@/views/village/index.vue'),
+          component: () => import(/* webpackChunkName: "village" */ '@/views/village/index.vue'),
           meta: { title: '村务管理', icon: 'HomeFilled' }
         },
         {
           path: 'grid',
           name: 'Grid',
-          component: () => import('@/views/grid/index.vue'),
+          component: () => import(/* webpackChunkName: "grid" */ '@/views/grid/index.vue'),
           meta: { title: '网格化管理', icon: 'Menu' }
         },
         {
           path: 'emergency',
           name: 'Emergency',
-          component: () => import('@/views/emergency/index.vue'),
+          component: () => import(/* webpackChunkName: "emergency" */ '@/views/emergency/index.vue'),
           meta: { title: '应急指挥', icon: 'Warning' }
         },
         {

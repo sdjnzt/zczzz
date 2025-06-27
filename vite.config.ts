@@ -11,6 +11,21 @@ export default defineConfig(({ mode }) => ({
       '@': resolve(__dirname, 'src'),
     },
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    // 确保动态导入正确处理
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['vue', 'vue-router', 'pinia', 'element-plus', 'echarts'],
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+      }
+    }
+  },
   server: {
     port: 3000,
     open: true,
