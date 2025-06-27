@@ -195,41 +195,41 @@ const loading = ref(false)
 
 // 网络设备列表
 const networkList = ref([
-  { id: 1, name: '兴隆庄核心交换机', ip: '10.10.1.10', type: 'switch', status: 'online', lastCheck: '2025-05-02 09:12:00' },
-  { id: 2, name: '社区办公交换机', ip: '10.10.1.11', type: 'switch', status: 'online', lastCheck: '2025-05-03 10:23:00' },
-  { id: 3, name: '外网路由器', ip: '10.10.2.1', type: 'router', status: 'online', lastCheck: '2025-05-05 08:45:00' },
-  { id: 4, name: '安全防火墙', ip: '10.10.3.1', type: 'firewall', status: 'online', lastCheck: '2025-05-07 11:30:00' },
-  { id: 5, name: '负载均衡器', ip: '10.10.4.1', type: 'loadbalancer', status: 'maintenance', lastCheck: '2025-05-09 14:10:00' },
-  { id: 6, name: '一楼接入交换机', ip: '10.10.5.10', type: 'switch', status: 'online', lastCheck: '2025-05-10 09:55:00' },
-  { id: 7, name: '二楼接入交换机', ip: '10.10.5.11', type: 'switch', status: 'offline', lastCheck: '2025-05-12 13:20:00' },
-  { id: 8, name: '无线控制器', ip: '10.10.6.1', type: 'controller', status: 'online', lastCheck: '2025-05-13 15:40:00' },
-  { id: 9, name: '核心路由器', ip: '10.10.2.2', type: 'router', status: 'online', lastCheck: '2025-05-15 10:05:00' },
-  { id: 10, name: '外部防火墙', ip: '10.10.3.2', type: 'firewall', status: 'offline', lastCheck: '2025-05-18 16:30:00' }
+  { id: 1, name: '兴隆庄核心交换机', ip: '10.10.1.10', type: 'switch', status: 'online', lastCheck: '2025-06-02 09:12:00' },
+  { id: 2, name: '社区办公交换机', ip: '10.10.1.11', type: 'switch', status: 'online', lastCheck: '2025-06-03 10:23:00' },
+  { id: 3, name: '外网路由器', ip: '10.10.2.1', type: 'router', status: 'online', lastCheck: '2025-06-05 08:45:00' },
+  { id: 4, name: '安全防火墙', ip: '10.10.3.1', type: 'firewall', status: 'online', lastCheck: '2025-06-07 11:30:00' },
+  { id: 5, name: '负载均衡器', ip: '10.10.4.1', type: 'loadbalancer', status: 'maintenance', lastCheck: '2025-06-09 14:10:00' },
+  { id: 6, name: '一楼接入交换机', ip: '10.10.5.10', type: 'switch', status: 'online', lastCheck: '2025-06-10 09:55:00' },
+  { id: 7, name: '二楼接入交换机', ip: '10.10.5.11', type: 'switch', status: 'offline', lastCheck: '2025-06-12 13:20:00' },
+  { id: 8, name: '无线控制器', ip: '10.10.6.1', type: 'controller', status: 'online', lastCheck: '2025-06-13 15:40:00' },
+  { id: 9, name: '核心路由器', ip: '10.10.2.2', type: 'router', status: 'online', lastCheck: '2025-06-15 10:05:00' },
+  { id: 10, name: '外部防火墙', ip: '10.10.3.2', type: 'firewall', status: 'offline', lastCheck: '2025-06-18 16:30:00' }
 ])
 
 // 服务器设备列表
 const serverList = ref([
-  { id: 1, name: '社区办公服务器', ip: '10.20.1.10', cpu: 38, memory: 55, status: 'running', lastCheck: '2025-05-02 09:12:00' },
-  { id: 2, name: '人口管理服务器', ip: '10.20.1.11', cpu: 52, memory: 68, status: 'running', lastCheck: '2025-05-03 10:23:00' },
-  { id: 3, name: '数据库服务器', ip: '10.20.2.10', cpu: 75, memory: 85, status: 'running', lastCheck: '2025-05-05 08:45:00' },
-  { id: 4, name: '视频监控服务器', ip: '10.20.2.12', cpu: 68, memory: 78, status: 'stopped', lastCheck: '2025-05-07 11:30:00' },
-  { id: 5, name: '备份服务器', ip: '10.20.3.10', cpu: 35, memory: 45, status: 'running', lastCheck: '2025-05-09 14:10:00' },
-  { id: 6, name: '虚拟化服务器A', ip: '10.20.4.10', cpu: 55, memory: 70, status: 'running', lastCheck: '2025-05-10 09:55:00' },
-  { id: 7, name: '虚拟化服务器B', ip: '10.20.4.11', cpu: 62, memory: 80, status: 'running', lastCheck: '2025-05-12 13:20:00' },
-  { id: 8, name: '政务门户服务器', ip: '10.20.6.10', cpu: 48, memory: 55, status: 'running', lastCheck: '2025-05-13 15:40:00' },
-  { id: 9, name: 'OA系统服务器', ip: '10.20.7.10', cpu: 41, memory: 60, status: 'running', lastCheck: '2025-05-15 10:05:00' },
-  { id: 10, name: '应急指挥服务器', ip: '10.20.8.10', cpu: 58, memory: 72, status: 'stopped', lastCheck: '2025-05-18 16:30:00' }
+  { id: 1, name: '社区办公服务器', ip: '10.20.1.10', cpu: 38, memory: 55, status: 'running', lastCheck: '2025-06-02 09:12:00' },
+  { id: 2, name: '人口管理服务器', ip: '10.20.1.11', cpu: 52, memory: 68, status: 'running', lastCheck: '2025-06-03 10:23:00' },
+  { id: 3, name: '数据库服务器', ip: '10.20.2.10', cpu: 75, memory: 85, status: 'running', lastCheck: '2025-06-05 08:45:00' },
+  { id: 4, name: '视频监控服务器', ip: '10.20.2.12', cpu: 68, memory: 78, status: 'stopped', lastCheck: '2025-06-07 11:30:00' },
+  { id: 5, name: '备份服务器', ip: '10.20.3.10', cpu: 35, memory: 45, status: 'running', lastCheck: '2025-06-09 14:10:00' },
+  { id: 6, name: '虚拟化服务器A', ip: '10.20.4.10', cpu: 55, memory: 70, status: 'running', lastCheck: '2025-06-10 09:55:00' },
+  { id: 7, name: '虚拟化服务器B', ip: '10.20.4.11', cpu: 62, memory: 80, status: 'running', lastCheck: '2025-06-12 13:20:00' },
+  { id: 8, name: '政务门户服务器', ip: '10.20.6.10', cpu: 48, memory: 55, status: 'running', lastCheck: '2025-06-13 15:40:00' },
+  { id: 9, name: 'OA系统服务器', ip: '10.20.7.10', cpu: 41, memory: 60, status: 'running', lastCheck: '2025-06-15 10:05:00' },
+  { id: 10, name: '应急指挥服务器', ip: '10.20.8.10', cpu: 58, memory: 72, status: 'stopped', lastCheck: '2025-06-18 16:30:00' }
 ])
 
 // 存储设备列表
 const storageList = ref([
-  { id: 1, name: '主存储A', type: 'SAN', capacity: '50TB', used: 65, status: 'normal', lastCheck: '2025-05-02 09:12:00' },
-  { id: 2, name: '主存储B', type: 'SAN', capacity: '50TB', used: 58, status: 'normal', lastCheck: '2025-05-03 10:23:00' },
-  { id: 3, name: '备份存储A', type: 'NAS', capacity: '30TB', used: 45, status: 'normal', lastCheck: '2025-05-05 08:45:00' },
-  { id: 4, name: '备份存储B', type: 'NAS', capacity: '30TB', used: 42, status: 'abnormal', lastCheck: '2025-05-07 11:30:00' },
-  { id: 5, name: '归档存储', type: 'NAS', capacity: '100TB', used: 35, status: 'normal', lastCheck: '2025-05-09 14:10:00' },
-  { id: 6, name: '分布式存储A', type: '分布式', capacity: '50TB', used: 22, status: 'normal', lastCheck: '2025-05-10 09:55:00' },
-  { id: 7, name: '分布式存储B', type: '分布式', capacity: '50TB', used: 18, status: 'abnormal', lastCheck: '2025-05-12 13:20:00' }
+  { id: 1, name: '主存储A', type: 'SAN', capacity: '50TB', used: 65, status: 'normal', lastCheck: '2025-06-02 09:12:00' },
+  { id: 2, name: '主存储B', type: 'SAN', capacity: '50TB', used: 58, status: 'normal', lastCheck: '2025-06-03 10:23:00' },
+  { id: 3, name: '备份存储A', type: 'NAS', capacity: '30TB', used: 45, status: 'normal', lastCheck: '2025-06-05 08:45:00' },
+  { id: 4, name: '备份存储B', type: 'NAS', capacity: '30TB', used: 42, status: 'abnormal', lastCheck: '2025-06-07 11:30:00' },
+  { id: 5, name: '归档存储', type: 'NAS', capacity: '100TB', used: 35, status: 'normal', lastCheck: '2025-06-09 14:10:00' },
+  { id: 6, name: '分布式存储A', type: '分布式', capacity: '50TB', used: 22, status: 'normal', lastCheck: '2025-06-10 09:55:00' },
+  { id: 7, name: '分布式存储B', type: '分布式', capacity: '50TB', used: 18, status: 'abnormal', lastCheck: '2025-06-12 13:20:00' }
 ])
 
 // 配置对话框

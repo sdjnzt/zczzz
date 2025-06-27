@@ -188,6 +188,100 @@
           </el-card>
         </el-col>
       </el-row>
+      
+      <!-- 网格化管理 -->
+      <el-card class="grid-management" shadow="hover">
+        <template #header>
+          <div class="card-header">
+            <div class="header-left">
+              <el-icon><Grid /></el-icon>
+              <span>网格化管理概况</span>
+            </div>
+            <el-button type="primary" size="small" @click="viewGridDetail">查看详情</el-button>
+          </div>
+        </template>
+        
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(grid, index) in gridData" :key="index">
+            <div class="grid-card" :class="`grid-type-${grid.type}`">
+              <div class="grid-header">
+                <span class="grid-name">{{ grid.name }}</span>
+                <el-tag size="small" :type="grid.status === '正常' ? 'success' : 'warning'">{{ grid.status }}</el-tag>
+              </div>
+              <div class="grid-content">
+                <div class="grid-row">
+                  <span class="label">网格员:</span>
+                  <span class="value">{{ grid.manager }}</span>
+                </div>
+                <div class="grid-row">
+                  <span class="label">覆盖范围:</span>
+                  <span class="value">{{ grid.area }}</span>
+                </div>
+                <div class="grid-row">
+                  <span class="label">户数:</span>
+                  <span class="value">{{ grid.households }}</span>
+                </div>
+                <div class="grid-row">
+                  <span class="label">人口:</span>
+                  <span class="value">{{ grid.population }}</span>
+                </div>
+                <div class="grid-row">
+                  <span class="label">事件数:</span>
+                  <span class="value">{{ grid.events }}</span>
+                </div>
+              </div>
+              <div class="grid-footer">
+                <el-progress 
+                  :percentage="grid.completion" 
+                  :color="grid.completion > 80 ? '#67C23A' : '#E6A23C'"
+                  :stroke-width="5"
+                  :format="(p) => `${p}%完成率`"
+                />
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </el-card>
+      
+      <!-- 重点项目进展 -->
+      <el-card class="projects-progress" shadow="hover">
+        <template #header>
+          <div class="card-header">
+            <div class="header-left">
+              <el-icon><DataAnalysis /></el-icon>
+              <span>重点项目进展</span>
+            </div>
+            <div class="header-actions">
+              <span class="update-time">更新时间: {{ formatTime(new Date()) }}</span>
+              <el-button type="primary" size="small">查看全部</el-button>
+            </div>
+          </div>
+        </template>
+        
+        <el-table :data="projectList" style="width: 100%" :max-height="400" border stripe>
+          <el-table-column prop="name" label="项目名称" min-width="220" />
+          <el-table-column prop="manager" label="负责人" width="100" />
+          <el-table-column prop="department" label="所属部门" width="150" />
+          <el-table-column prop="startDate" label="开始日期" width="120" />
+          <el-table-column prop="endDate" label="计划完成日期" width="120" />
+          <el-table-column prop="status" label="状态" width="100">
+            <template #default="{ row }">
+              <el-tag :type="getProjectStatusType(row.status)" size="small">
+                {{ row.status }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="进度" min-width="200">
+            <template #default="{ row }">
+              <el-progress 
+                :percentage="row.progress" 
+                :status="getProgressStatus(row.progress, row.status)"
+                :stroke-width="10" 
+              />
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
     </div>
   </template>
   
@@ -206,7 +300,9 @@
     Document,
     Tools,
     VideoPlay,
-    CircleClose
+    CircleClose,
+    Grid,
+    DataAnalysis
   } from '@element-plus/icons-vue'
   
   // 统计卡片数据
@@ -254,17 +350,76 @@
   
   // 系统列表数据
   const systemList = ref([
-    { id: 1, systemName: '政务便民服务平台', owner: '王晓强', status: '运行中', updateTime: '2025-05-01 09:00', usage: 78, type: 'public' },
-    { id: 2, systemName: '村务管理系统', owner: '李文娜', status: '运行中', updateTime: '2025-05-01 08:30', usage: 65, type: 'village' },
-    { id: 3, systemName: '农业信息化平台', owner: '刘志洋', status: '运行中', updateTime: '2025-05-22 17:00', usage: 42, type: 'agriculture' },
-    { id: 4, systemName: '应急指挥系统', owner: '张丽敏', status: '运行中', updateTime: '2025-05-22 16:00', usage: 30, type: 'emergency' }
+    { id: 1, systemName: '政务便民服务平台', owner: '王晓强', status: '运行中', updateTime: '2025-06-01 09:00', usage: 78, type: 'public' },
+    { id: 2, systemName: '村务管理系统', owner: '李文娜', status: '运行中', updateTime: '2025-06-01 08:30', usage: 65, type: 'village' },
+    { id: 3, systemName: '农业信息化平台', owner: '刘志洋', status: '运行中', updateTime: '2025-06-22 17:00', usage: 42, type: 'agriculture' },
+    { id: 4, systemName: '应急指挥系统', owner: '张丽敏', status: '运行中', updateTime: '2025-06-22 16:00', usage: 30, type: 'emergency' }
   ])
   
   // 告警列表
   const alarmList = ref([
-    { type: 'warning', time: '2025-05-01 10:30', content: '存储空间使用率超过70%' },
-    { type: 'info', time: '2025-05-01 09:15', content: '系统例行维护完成' },
-    { type: 'success', time: '2025-05-01 08:00', content: '数据备份任务完成' }
+    { type: 'warning', time: '2025-06-01 10:30', content: '存储空间使用率超过70%' },
+    { type: 'info', time: '2025-06-01 09:15', content: '系统例行维护完成' },
+    { type: 'success', time: '2025-06-01 08:00', content: '数据备份任务完成' }
+  ])
+
+  // 网格数据
+  const gridData = ref([
+    { name: '西区网格1', type: 1, status: '正常', manager: '张明', area: '西部片区', households: 256, population: 768, events: 12, completion: 95 },
+    { name: '西区网格2', type: 1, status: '正常', manager: '李芳', area: '西部片区', households: 312, population: 936, events: 8, completion: 88 },
+    { name: '东区网格1', type: 2, status: '正常', manager: '王伟', area: '东部片区', households: 189, population: 567, events: 5, completion: 92 },
+    { name: '东区网格2', type: 2, status: '待处理', manager: '刘红', area: '东部片区', households: 276, population: 828, events: 15, completion: 75 },
+    { name: '中心区网格', type: 3, status: '正常', manager: '赵鑫', area: '中心区域', households: 423, population: 1269, events: 7, completion: 90 },
+    { name: '南区网格', type: 4, status: '待处理', manager: '孙艺', area: '南部片区', households: 203, population: 609, events: 18, completion: 65 }
+  ])
+
+  // 重点项目数据
+  const projectList = ref([
+    { 
+      name: '张庄镇智慧农业示范基地建设', 
+      manager: '李大勇', 
+      department: '农业发展科', 
+      startDate: '2025-01-15', 
+      endDate: '2025-12-31', 
+      status: '进行中',
+      progress: 45
+    },
+    { 
+      name: '村民服务中心智能化升级项目', 
+      manager: '王建国', 
+      department: '民政科', 
+      startDate: '2025-03-01', 
+      endDate: '2025-08-31', 
+      status: '进行中',
+      progress: 68
+    },
+    { 
+      name: '张庄镇应急指挥系统升级工程', 
+      manager: '张丽敏', 
+      department: '应急管理办', 
+      startDate: '2025-02-10', 
+      endDate: '2025-07-15', 
+      status: '进行中',
+      progress: 85
+    },
+    { 
+      name: '农村道路智能监控系统建设', 
+      manager: '陈明辉', 
+      department: '交通科', 
+      startDate: '2025-04-01', 
+      endDate: '2025-10-31', 
+      status: '延期',
+      progress: 32
+    },
+    { 
+      name: '镇村公共服务一体化平台建设', 
+      manager: '周雪梅', 
+      department: '信息科', 
+      startDate: '2025-03-15', 
+      endDate: '2025-09-30', 
+      status: '进行中',
+      progress: 52
+    }
   ])
   
   // 加载状态
@@ -280,6 +435,30 @@
   
   const refreshAlarms = () => {
     // 实现刷新逻辑
+  }
+
+  // 查看网格详情
+  const viewGridDetail = () => {
+    // 实现查看网格详情逻辑
+  }
+  
+  // 获取项目状态样式
+  const getProjectStatusType = (status: string) => {
+    switch (status) {
+      case '已完成': return 'success'
+      case '进行中': return 'primary'
+      case '延期': return 'warning'
+      case '暂停': return 'info'
+      default: return 'info'
+    }
+  }
+
+  // 获取进度状态
+  const getProgressStatus = (progress: number, status: string) => {
+    if (status === '延期') return 'exception'
+    if (status === '暂停') return 'warning'
+    if (progress === 100) return 'success'
+    return ''
   }
   
   const trendChartRef = ref<HTMLElement | null>(null)
@@ -754,5 +933,88 @@
     .chart-container {
       height: 280px;
     }
+  }
+
+  /* 网格化管理样式 */
+  .grid-management {
+    margin-bottom: 20px;
+  }
+
+  .grid-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 16px;
+    margin-bottom: 20px;
+    border-top: 3px solid #409EFF;
+    height: 100%;
+    transition: all 0.3s;
+  }
+
+  .grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .grid-card.grid-type-1 {
+    border-top-color: #409EFF;
+  }
+
+  .grid-card.grid-type-2 {
+    border-top-color: #67C23A;
+  }
+
+  .grid-card.grid-type-3 {
+    border-top-color: #E6A23C;
+  }
+
+  .grid-card.grid-type-4 {
+    border-top-color: #F56C6C;
+  }
+
+  .grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #EBEEF5;
+    margin-bottom: 12px;
+  }
+
+  .grid-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #303133;
+  }
+
+  .grid-content {
+    margin-bottom: 15px;
+  }
+
+  .grid-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .grid-row .label {
+    color: #909399;
+  }
+
+  .grid-row .value {
+    color: #606266;
+    font-weight: 500;
+  }
+
+  /* 重点项目进展样式 */
+  .projects-progress {
+    margin-bottom: 20px;
+  }
+
+  .update-time {
+    margin-right: 10px;
+    color: #909399;
+    font-size: 13px;
   }
   </style>

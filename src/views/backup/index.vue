@@ -387,16 +387,16 @@ const storageInfo = reactive({
 
 // 备份列表数据
 const originalBackupList = ref<BackupItem[]>([
-  { id: 1, name: '政务服务数据全量备份', owner: '王晓强', type: 'full', source: '/gov/data', target: '/backup/gov/full', schedule: 'daily', status: 'completed', progress: 100, lastRunTime: '2025-05-01 02:00', desc: '每日凌晨全量备份政务服务平台数据' },
-  { id: 2, name: '村务管理系统增量备份', owner: '李文娜', type: 'incremental', source: '/village/manage', target: '/backup/village/incremental', schedule: 'weekly', status: 'running', progress: 45, lastRunTime: '2025-05-03 03:00', desc: '村务管理系统每周增量备份' },
-  { id: 3, name: '农业信息化平台差异备份', owner: '刘志洋', type: 'differential', source: '/agri/platform', target: '/backup/agri/diff', schedule: 'monthly', status: 'failed', progress: 60, lastRunTime: '2025-05-05 04:00', desc: '农业信息化平台每月差异备份' },
-  { id: 4, name: '应急指挥系统全量备份', owner: '张丽敏', type: 'full', source: '/emergency/command', target: '/backup/emergency/full', schedule: 'daily', status: 'waiting', progress: 0, lastRunTime: '2025-05-07 02:00', desc: '应急指挥系统每日全量备份' },
-  { id: 5, name: '网格化管理平台增量备份', owner: '赵明', type: 'incremental', source: '/grid/manage', target: '/backup/grid/incremental', schedule: 'weekly', status: 'completed', progress: 100, lastRunTime: '2025-05-09 03:00', desc: '网格化管理平台每周增量备份' },
-  { id: 6, name: '镇村资产数据全量备份', owner: '宋倩', type: 'full', source: '/asset/town', target: '/backup/asset/full', schedule: 'monthly', status: 'completed', progress: 100, lastRunTime: '2025-05-11 01:30', desc: '镇村资产数据每月全量备份' },
-  { id: 7, name: '农业生产数据差异备份', owner: '周伟', type: 'differential', source: '/agri/production', target: '/backup/agri/production/diff', schedule: 'weekly', status: 'running', progress: 70, lastRunTime: '2025-05-13 04:30', desc: '农业生产数据每周差异备份' },
-  { id: 8, name: '硬件资源管理平台增量备份', owner: '刘强', type: 'incremental', source: '/hardware/resource', target: '/backup/hardware/incremental', schedule: 'daily', status: 'completed', progress: 100, lastRunTime: '2025-05-15 02:30', desc: '硬件资源管理平台每日增量备份' },
-  { id: 9, name: '数据服务平台全量备份', owner: '冯媛', type: 'full', source: '/data/service', target: '/backup/data/full', schedule: 'monthly', status: 'failed', progress: 20, lastRunTime: '2025-05-17 05:00', desc: '数据服务平台每月全量备份' },
-  { id: 10, name: '应急预案文档差异备份', owner: '许静', type: 'differential', source: '/emergency/plans', target: '/backup/emergency/plans/diff', schedule: 'weekly', status: 'completed', progress: 100, lastRunTime: '2025-05-19 03:30', desc: '应急预案文档每周差异备份' }
+  { id: 1, name: '政务服务数据全量备份', owner: '王晓强', type: 'full', source: '/gov/data', target: '/backup/gov/full', schedule: 'daily', status: 'completed', progress: 100, lastRunTime: '2025-06-01 02:00', desc: '每日凌晨全量备份政务服务平台数据' },
+  { id: 2, name: '村务管理系统增量备份', owner: '李文娜', type: 'incremental', source: '/village/manage', target: '/backup/village/incremental', schedule: 'weekly', status: 'running', progress: 45, lastRunTime: '2025-06-03 03:00', desc: '村务管理系统每周增量备份' },
+  { id: 3, name: '农业信息化平台差异备份', owner: '刘志洋', type: 'differential', source: '/agri/platform', target: '/backup/agri/diff', schedule: 'monthly', status: 'failed', progress: 60, lastRunTime: '2025-06-05 04:00', desc: '农业信息化平台每月差异备份' },
+  { id: 4, name: '应急指挥系统全量备份', owner: '张丽敏', type: 'full', source: '/emergency/command', target: '/backup/emergency/full', schedule: 'daily', status: 'waiting', progress: 0, lastRunTime: '2025-06-07 02:00', desc: '应急指挥系统每日全量备份' },
+  { id: 5, name: '网格化管理平台增量备份', owner: '赵明', type: 'incremental', source: '/grid/manage', target: '/backup/grid/incremental', schedule: 'weekly', status: 'completed', progress: 100, lastRunTime: '2025-06-09 03:00', desc: '网格化管理平台每周增量备份' },
+  { id: 6, name: '镇村资产数据全量备份', owner: '宋倩', type: 'full', source: '/asset/town', target: '/backup/asset/full', schedule: 'monthly', status: 'completed', progress: 100, lastRunTime: '2025-06-11 01:30', desc: '镇村资产数据每月全量备份' },
+  { id: 7, name: '农业生产数据差异备份', owner: '周伟', type: 'differential', source: '/agri/production', target: '/backup/agri/production/diff', schedule: 'weekly', status: 'running', progress: 70, lastRunTime: '2025-06-13 04:30', desc: '农业生产数据每周差异备份' },
+  { id: 8, name: '硬件资源管理平台增量备份', owner: '刘强', type: 'incremental', source: '/hardware/resource', target: '/backup/hardware/incremental', schedule: 'daily', status: 'completed', progress: 100, lastRunTime: '2025-06-15 02:30', desc: '硬件资源管理平台每日增量备份' },
+  { id: 9, name: '数据服务平台全量备份', owner: '冯媛', type: 'full', source: '/data/service', target: '/backup/data/full', schedule: 'monthly', status: 'failed', progress: 20, lastRunTime: '2025-06-17 05:00', desc: '数据服务平台每月全量备份' },
+  { id: 10, name: '应急预案文档差异备份', owner: '许静', type: 'differential', source: '/emergency/plans', target: '/backup/emergency/plans/diff', schedule: 'weekly', status: 'completed', progress: 100, lastRunTime: '2025-06-19 03:30', desc: '应急预案文档每周差异备份' }
 ])
 
 const backupList = ref<BackupItem[]>([])

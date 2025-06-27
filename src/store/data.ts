@@ -29,11 +29,11 @@ export const residentList = ref([
 
 // 村务公开数据
 export const publicList = ref([
-  { id: 1, title: '张庄村2025年第一季度村务公开', village: '张庄村', type: '村务公开', publisher: '张建国', publishTime: '2025-05-05 10:00', views: 356, status: '已发布' },
-  { id: 2, title: '张庄村2025年基础设施建设项目公示', village: '张庄村', type: '项目公示', publisher: '张建国', publishTime: '2025-05-10 14:30', views: 289, status: '已发布' },
-  { id: 3, title: '李庄村2025年第一季度财务收支情况公开', village: '李庄村', type: '财务公开', publisher: '李志强', publishTime: '2025-05-08 09:20', views: 198, status: '已发布' },
-  { id: 4, title: '王庄村2025年乡村振兴项目资金使用情况', village: '王庄村', type: '财务公开', publisher: '王伟', publishTime: '2025-05-12 11:10', views: 176, status: '已发布' },
-  { id: 5, title: '赵庄村2025年道路硬化工程施工公告', village: '赵庄村', type: '项目公示', publisher: '赵云', publishTime: '2025-05-15 15:00', views: 210, status: '已发布' }
+  { id: 1, title: '张庄村2025年第一季度村务公开', village: '张庄村', type: '村务公开', publisher: '张建国', publishTime: '2025-06-05 10:00', views: 356, status: '已发布' },
+  { id: 2, title: '张庄村2025年基础设施建设项目公示', village: '张庄村', type: '项目公示', publisher: '张建国', publishTime: '2025-06-10 14:30', views: 289, status: '已发布' },
+  { id: 3, title: '李庄村2025年第一季度财务收支情况公开', village: '李庄村', type: '财务公开', publisher: '李志强', publishTime: '2025-06-08 09:20', views: 198, status: '已发布' },
+  { id: 4, title: '王庄村2025年乡村振兴项目资金使用情况', village: '王庄村', type: '财务公开', publisher: '王伟', publishTime: '2025-06-12 11:10', views: 176, status: '已发布' },
+  { id: 5, title: '赵庄村2025年道路硬化工程施工公告', village: '赵庄村', type: '项目公示', publisher: '赵云', publishTime: '2025-06-15 15:00', views: 210, status: '已发布' }
 ])
 
 // 生成新的ID
