@@ -235,7 +235,7 @@
                   :percentage="grid.completion" 
                   :color="grid.completion > 80 ? '#67C23A' : '#E6A23C'"
                   :stroke-width="5"
-                  :format="(p) => `${p}%完成率`"
+                  :format="(p: number) => `${p}%完成率`"
                 />
               </div>
             </div>
