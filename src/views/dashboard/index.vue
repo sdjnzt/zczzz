@@ -388,7 +388,7 @@
       name: '村民服务中心智能化升级项目', 
       manager: '王建国', 
       department: '民政科', 
-      startDate: '2025-03-01', 
+      startDate: '2025-06-01',
       endDate: '2025-08-31', 
       status: '进行中',
       progress: 68
@@ -415,7 +415,7 @@
       name: '镇村公共服务一体化平台建设', 
       manager: '周雪梅', 
       department: '信息科', 
-      startDate: '2025-03-15', 
+      startDate: '2025-06-15',
       endDate: '2025-09-30', 
       status: '进行中',
       progress: 52

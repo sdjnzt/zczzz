@@ -158,7 +158,7 @@ const policyList = ref([
     title: '关于2025年农业补贴政策的通知',
     type: '补贴',
     department: '农业办公室',
-    publishDate: '2025-03-15',
+    publishDate: '2025-06-15',
     status: '已生效'
   },
   {
@@ -166,7 +166,7 @@ const policyList = ref([
     title: '张庄镇农业产业发展规划（2025-2027）',
     type: '规划',
     department: '经济发展办公室',
-    publishDate: '2025-03-10',
+    publishDate: '2025-06-10',
     status: '已生效'
   },
   {
@@ -174,7 +174,7 @@ const policyList = ref([
     title: '关于加强农业技术推广工作的通知',
     type: '技术',
     department: '农业技术推广站',
-    publishDate: '2025-03-05',
+    publishDate: '2025-06-05',
     status: '已生效'
   },
   {
