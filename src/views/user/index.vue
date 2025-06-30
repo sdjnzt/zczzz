@@ -236,6 +236,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Setting } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
+import { baseActions, dataActions } from '@/utils/buttonActions'
 
 // 搜索表单
 const searchForm = reactive({
@@ -431,21 +432,12 @@ const handleEdit = (row: User) => {
 
 // 删除用户
 const handleDelete = (row: any) => {
-  ElMessageBox.confirm(
-    '确定要删除该用户吗？',
-    '警告',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }
-  ).then(() => {
+  dataActions.delete('用户', row.username, () => {
     // 实现删除逻辑
     const idx = mockUsers.findIndex(u => u.id === row.id)
     if (idx !== -1) {
       mockUsers.splice(idx, 1)
       handleSearch()
-      ElMessage.success('删除成功')
       total.value = mockUsers.length
     }
   })
@@ -453,9 +445,10 @@ const handleDelete = (row: any) => {
 
 // 修改用户状态
 const handleStatusClick = (row: User) => {
-  row.status = row.status === 'active' ? 'inactive' : 'active'
-  const status = row.status === 'active' ? '启用' : '禁用'
-  ElMessage.success(`已${status}用户：${row.username}`)
+  const newStatus = dataActions.toggleStatus('用户', row.status, (status) => {
+    row.status = status
+  })
+  row.status = newStatus
 }
 
 // 提交表单
@@ -514,7 +507,7 @@ const handleAddRole = () => {
       createTime: new Date().toLocaleString()
     }
     roleList.value.push(newRole)
-    ElMessage.success('新增角色成功')
+    dataActions.add('角色')
   })
 }
 
@@ -528,25 +521,16 @@ const handleEditRole = (row: any) => {
     inputErrorMessage: '角色名称长度为2-20个字符'
   }).then(({ value }) => {
     row.name = value
-    ElMessage.success('编辑角色成功')
+    dataActions.edit('角色')
   })
 }
 
 // 删除角色
 const handleDeleteRole = (row: any) => {
-  ElMessageBox.confirm(
-    '确定要删除该角色吗？',
-    '警告',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }
-  ).then(() => {
+  dataActions.delete('角色', row.name, () => {
     const idx = roleList.value.findIndex(r => r.id === row.id)
     if (idx !== -1) {
       roleList.value.splice(idx, 1)
-      ElMessage.success('删除成功')
     }
   })
 }

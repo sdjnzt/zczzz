@@ -22,7 +22,7 @@
       <template #header>
         <div class="card-header">
           <span>热门服务</span>
-          <el-button type="primary" link :icon="MoreFilled">更多服务</el-button>
+          <el-button type="primary" link :icon="MoreFilled" @click="handleMoreServices">更多服务</el-button>
         </div>
       </template>
       <el-row :gutter="20">
@@ -42,7 +42,10 @@
       <template #header>
         <div class="card-header">
           <span>办事指南</span>
-          <el-button type="primary" size="small" :icon="Plus" @click="handleAddGuide">发布指南</el-button>
+          <div>
+            <el-button type="primary" size="small" :icon="Plus" @click="handleAddGuide">发布指南</el-button>
+            <el-button type="success" size="small" @click="baseActions.refresh(() => guideLoading = false)">刷新</el-button>
+          </div>
         </div>
       </template>
       <el-table :data="guideList" style="width: 100%" v-loading="guideLoading" border stripe>
@@ -76,7 +79,10 @@
       <template #header>
         <div class="card-header">
           <span>在线咨询</span>
-          <el-button type="primary" size="small" :icon="Plus" @click="handleNewConsultation">发起咨询</el-button>
+          <div>
+            <el-button type="primary" size="small" :icon="Plus" @click="handleNewConsultation">发起咨询</el-button>
+            <el-button type="success" size="small" @click="baseActions.refresh(() => consultationLoading = false)">刷新</el-button>
+          </div>
         </div>
       </template>
       <el-table :data="consultationList" style="width: 100%" v-loading="consultationLoading" border stripe>
@@ -91,9 +97,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="咨询时间" width="180" />
-        <el-table-column label="操作" width="100" fixed="right">
+        <el-table-column label="操作" width="140" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" :icon="View" circle @click="viewConsultation(row)" title="查看" />
+            <el-button-group>
+              <el-button type="primary" :icon="View" circle @click="viewConsultation(row)" title="查看" />
+              <el-button type="warning" :icon="Edit" circle @click="viewConsultation(row)" title="回复" v-if="row.status === '待回复'" />
+              <el-button type="danger" :icon="Delete" circle @click="deleteConsultation(row)" title="删除" />
+            </el-button-group>
           </template>
         </el-table-column>
       </el-table>
@@ -119,6 +129,8 @@ import {
   Delete,
   MoreFilled
 } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
+import { baseActions, dataActions, navigationActions } from '@/utils/buttonActions'
 
 // 服务分类
 const serviceCategories = [
@@ -169,21 +181,49 @@ const guideList = ref([
     id: 2,
     title: '新生儿落户办理流程',
     department: '派出所',
-    updateTime: '2025-06-14 15:30',
+    updateTime: '2025-06-17 15:30',
     views: 980
   },
   {
     id: 3,
     title: '个体工商户注册登记指南',
     department: '市场监督管理局',
-    updateTime: '2025-06-13 09:15',
+    updateTime: '2025-06-18 09:15',
     views: 1560
+  },
+  {
+    id: 4,
+    title: '居民医保参保缴费指南',
+    department: '医保局',
+    updateTime: '2025-06-19 14:20',
+    views: 2150
+  },
+  {
+    id: 5,
+    title: '不动产登记办理流程',
+    department: '自然资源局',
+    updateTime: '2025-06-20 11:30',
+    views: 1830
+  },
+  {
+    id: 6,
+    title: '低保申请办理指南',
+    department: '民政局',
+    updateTime: '2025-06-21 16:45',
+    views: 760
+  },
+  {
+    id: 7,
+    title: '残疾人证办理流程',
+    department: '残联',
+    updateTime: '2025-06-22 10:15',
+    views: 520
   }
 ])
 const guideLoading = ref(false)
 const guidePage = ref(1)
 const guidePageSize = ref(10)
-const guideTotal = ref(3)
+const guideTotal = ref(7)
 
 // 在线咨询列表
 const consultationList = ref([
@@ -201,52 +241,197 @@ const consultationList = ref([
     user: '李女士',
     department: '医保局',
     status: '待回复',
-    createTime: '2025-06-15 16:45'
+    createTime: '2025-06-16 16:45'
+  },
+  {
+    id: 3,
+    title: '异地就医报销问题',
+    user: '王先生',
+    department: '医保局',
+    status: '已回复',
+    createTime: '2025-06-17 09:20'
+  },
+  {
+    id: 4,
+    title: '公积金提取条件咨询',
+    user: '赵女士',
+    department: '住房公积金中心',
+    status: '已回复',
+    createTime: '2025-06-18 11:15'
+  },
+  {
+    id: 5,
+    title: '居住证办理材料咨询',
+    user: '刘先生',
+    department: '派出所',
+    status: '待回复',
+    createTime: '2025-06-19 15:40'
+  },
+  {
+    id: 6,
+    title: '企业营业执照变更流程',
+    user: '陈先生',
+    department: '市场监督管理局',
+    status: '待回复',
+    createTime: '2025-06-20 10:30'
   }
 ])
 const consultationLoading = ref(false)
 const consultationPage = ref(1)
 const consultationPageSize = ref(10)
-const consultationTotal = ref(2)
+const consultationTotal = ref(6)
 
 // 处理分类点击
 const handleCategoryClick = (category: any) => {
-  console.log('点击分类:', category)
+  navigationActions.navigate(category.title, () => {
+    console.log('已导航到分类:', category)
+  })
 }
 
 // 处理服务点击
 const handleServiceClick = (service: any) => {
-  console.log('点击服务:', service)
+  navigationActions.navigate(service.name, () => {
+    console.log('已导航到服务:', service)
+  })
 }
 
 // 查看指南
 const viewGuide = (row: any) => {
-  console.log('查看指南:', row)
+  dataActions.view('办事指南', () => {
+    // 模拟查看详情，增加浏览量
+    row.views += 1
+    console.log('查看指南:', row)
+  })
 }
 
 // 编辑指南
 const editGuide = (row: any) => {
-  console.log('编辑指南:', row)
+  // 显示编辑对话框
+  ElMessageBox.prompt('请编辑指南标题', '编辑指南', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    inputValue: row.title
+  }).then(({ value }) => {
+    // 更新指南标题
+    const oldTitle = row.title
+    row.title = value
+    row.updateTime = new Date().toLocaleString()
+    
+    dataActions.edit('办事指南', () => {
+      console.log(`指南已从"${oldTitle}"更新为"${value}"`)
+    })
+  }).catch(() => {
+    // 取消编辑
+  })
 }
 
 // 删除指南
 const deleteGuide = (row: any) => {
-  console.log('删除指南:', row)
+  dataActions.delete('办事指南', row.title, () => {
+    const index = guideList.value.findIndex(item => item.id === row.id)
+    if (index !== -1) {
+      guideList.value.splice(index, 1)
+      guideTotal.value -= 1
+    }
+  })
 }
 
 // 发布指南
 const handleAddGuide = () => {
-  console.log('发布新指南')
+  // 显示添加对话框
+  ElMessageBox.prompt('请输入指南标题', '发布指南', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    inputPattern: /.+/,
+    inputErrorMessage: '标题不能为空'
+  }).then(({ value }) => {
+    // 添加新指南
+    const newGuide = {
+      id: Date.now(),
+      title: value,
+      department: '镇政府办公室',
+      updateTime: new Date().toLocaleString(),
+      views: 0
+    }
+    
+    guideList.value.unshift(newGuide)
+    guideTotal.value += 1
+    
+    dataActions.add('办事指南', () => {
+      console.log('新指南已发布:', newGuide)
+    })
+  }).catch(() => {
+    // 取消添加
+  })
 }
 
 // 查看咨询
 const viewConsultation = (row: any) => {
-  console.log('查看咨询:', row)
+  dataActions.view('在线咨询', () => {
+    console.log('查看咨询:', row)
+    
+    // 如果是待回复状态，模拟回复后更新状态
+    if (row.status === '待回复') {
+      ElMessageBox.prompt('请输入回复内容', '回复咨询', {
+        confirmButtonText: '回复',
+        cancelButtonText: '取消',
+        inputType: 'textarea',
+        inputPattern: /.+/,
+        inputErrorMessage: '回复内容不能为空'
+      }).then(() => {
+        row.status = '已回复'
+        dataActions.edit('咨询回复')
+      }).catch(() => {
+        // 取消回复
+      })
+    }
+  })
 }
 
 // 发起咨询
 const handleNewConsultation = () => {
-  console.log('发起新咨询')
+  // 显示添加对话框
+  ElMessageBox.prompt('请输入咨询主题', '发起咨询', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    inputPattern: /.+/,
+    inputErrorMessage: '咨询主题不能为空'
+  }).then(({ value }) => {
+    // 添加新咨询
+    const newConsultation = {
+      id: Date.now(),
+      title: value,
+      user: '当前用户',
+      department: '待分配',
+      status: '待回复',
+      createTime: new Date().toLocaleString()
+    }
+    
+    consultationList.value.unshift(newConsultation)
+    consultationTotal.value += 1
+    
+    dataActions.add('在线咨询', () => {
+      console.log('新咨询已提交:', newConsultation)
+    })
+  }).catch(() => {
+    // 取消添加
+  })
+}
+
+// 删除咨询
+const deleteConsultation = (row: any) => {
+  dataActions.delete('在线咨询', row.title, () => {
+    const index = consultationList.value.findIndex(item => item.id === row.id)
+    if (index !== -1) {
+      consultationList.value.splice(index, 1)
+      consultationTotal.value -= 1
+    }
+  })
+}
+
+// 更多服务按钮点击处理
+const handleMoreServices = () => {
+  navigationActions.navigate('服务列表页面')
 }
 </script>
 

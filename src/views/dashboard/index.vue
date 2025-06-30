@@ -39,7 +39,7 @@
                 <span class="sync-time">最后同步: {{ formatTime(new Date()) }}</span>
               </el-tooltip>
               <el-button type="primary" size="small" :icon="Refresh" @click="refreshSystemStatus">刷新</el-button>
-              <el-button type="success" size="small" :icon="Document">报表</el-button>
+              <el-button type="success" size="small" :icon="Document" @click="generateReport">报表</el-button>
             </div>
           </div>
         </template>
@@ -253,7 +253,7 @@
             </div>
             <div class="header-actions">
               <span class="update-time">更新时间: {{ formatTime(new Date()) }}</span>
-              <el-button type="primary" size="small">查看全部</el-button>
+              <el-button type="primary" size="small" @click="viewAllProjects">查看全部</el-button>
             </div>
           </div>
         </template>
@@ -288,6 +288,8 @@
   <script setup lang="ts">
   import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
   import * as echarts from 'echarts'
+  import { useRouter } from 'vue-router'
+  import { ElMessage, ElMessageBox } from 'element-plus'
   import { 
     Operation, 
     TrendCharts, 
@@ -304,6 +306,9 @@
     Grid,
     DataAnalysis
   } from '@element-plus/icons-vue'
+  
+  // 使用路由
+  const router = useRouter()
   
   // 统计卡片数据
   const statCards = [
@@ -428,37 +433,171 @@
   // 刷新方法
   const refreshSystemStatus = () => {
     tableLoading.value = true
+    
+    // 模拟API请求
     setTimeout(() => {
+      // 这里可以增加一些随机状态变化来模拟真实环境
+      const statusList = ['运行中', '维护中', '告警', '离线']
+      const randomStatus = () => statusList[Math.floor(Math.random() * statusList.length)]
+      
+      // 随机更新一些系统状态
+      systemList.value = systemList.value.map(system => ({
+        ...system,
+        status: Math.random() > 0.7 ? randomStatus() : system.status,
+        usage: Math.min(100, system.usage + Math.floor(Math.random() * 10) - 5),
+        updateTime: formatTime(new Date())
+      }))
+      
       tableLoading.value = false
+      ElMessage.success('系统状态已刷新')
     }, 1000)
   }
   
+  // 刷新告警方法
   const refreshAlarms = () => {
-    // 实现刷新逻辑
+    // 模拟刷新告警数据
+    const loadingInstance = ElMessage({
+      message: '正在加载最新告警信息...',
+      duration: 0,
+      type: 'info'
+    })
+    
+    setTimeout(() => {
+      // 随机生成一些新告警
+      const newAlertTypes = ['success', 'warning', 'info', 'error']
+      const newAlertContents = [
+        '系统内存使用率达到临界值',
+        '备份任务完成',
+        '网络连接异常',
+        'CPU使用率过高',
+        '存储空间不足',
+        '安全漏洞检测完成'
+      ]
+      
+      // 添加1-3个新告警
+      const newAlertsCount = Math.floor(Math.random() * 3) + 1
+      const now = new Date()
+      
+      for (let i = 0; i < newAlertsCount; i++) {
+        const type = newAlertTypes[Math.floor(Math.random() * newAlertTypes.length)]
+        const content = newAlertContents[Math.floor(Math.random() * newAlertContents.length)]
+        const time = formatTime(new Date(now.getTime() - i * 60000)) // 每条告警间隔1分钟
+        
+        alarmList.value.unshift({
+          type,
+          time,
+          content
+        })
+      }
+      
+      // 保持告警列表不超过10条
+      if (alarmList.value.length > 10) {
+        alarmList.value = alarmList.value.slice(0, 10)
+      }
+      
+      // 关闭loading消息
+      setTimeout(() => {
+        ElMessage.closeAll()
+        ElMessage.success('告警信息已更新')
+      }, 500)
+    }, 1200)
   }
 
-  // 查看网格详情
-  const viewGridDetail = () => {
-    // 实现查看网格详情逻辑
+  // 生成报表
+  const generateReport = () => {
+    ElMessage.info('正在生成系统状态报表...')
+    setTimeout(() => {
+      ElMessage.success('系统状态报表已生成')
+      // 这里可以添加下载或查看报表的逻辑
+    }, 1500)
   }
   
-  // 获取项目状态样式
-  const getProjectStatusType = (status: string) => {
-    switch (status) {
-      case '已完成': return 'success'
-      case '进行中': return 'primary'
-      case '延期': return 'warning'
-      case '暂停': return 'info'
-      default: return 'info'
-    }
+  // 查看系统详情
+  const viewSystemDetail = (row: any) => {
+    ElMessageBox.alert(
+      `<div class="system-detail-popup">
+        <h3>${row.systemName}</h3>
+        <p><strong>ID:</strong> ${row.id}</p>
+        <p><strong>负责人:</strong> ${row.owner}</p>
+        <p><strong>状态:</strong> ${row.status}</p>
+        <p><strong>更新时间:</strong> ${row.updateTime}</p>
+        <p><strong>使用率:</strong> ${row.usage}%</p>
+        <p><strong>类型:</strong> ${row.type}</p>
+      </div>`,
+      '系统详情',
+      {
+        dangerouslyUseHTMLString: true,
+        confirmButtonText: '关闭'
+      }
+    )
   }
-
-  // 获取进度状态
-  const getProgressStatus = (progress: number, status: string) => {
-    if (status === '延期') return 'exception'
-    if (status === '暂停') return 'warning'
-    if (progress === 100) return 'success'
-    return ''
+  
+  // 配置系统
+  const configSystem = (row: any) => {
+    ElMessage.info(`正在打开${row.systemName}的配置页面...`)
+    setTimeout(() => {
+      ElMessage.success(`已打开${row.systemName}的配置页面`)
+    }, 1000)
+  }
+  
+  // 重启系统
+  const restartSystem = (row: any) => {
+    ElMessageBox.confirm(
+      `确定要重启 ${row.systemName} 吗？重启过程中系统将暂时不可用。`,
+      '重启确认',
+      {
+        confirmButtonText: '确定重启',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+    )
+      .then(() => {
+        ElMessage({
+          type: 'info',
+          message: `${row.systemName} 正在重启中，请稍候...`
+        })
+        
+        // 模拟重启过程
+        setTimeout(() => {
+          // 更新系统状态
+          const index = systemList.value.findIndex(s => s.id === row.id)
+          if (index !== -1) {
+            systemList.value[index].status = '维护中'
+          }
+          
+          // 再次模拟重启完成
+          setTimeout(() => {
+            if (index !== -1) {
+              systemList.value[index].status = '运行中'
+              systemList.value[index].usage = Math.floor(30 + Math.random() * 20)
+              systemList.value[index].updateTime = formatTime(new Date())
+            }
+            ElMessage.success(`${row.systemName} 已成功重启`)
+          }, 3000)
+        }, 2000)
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '已取消重启操作'
+        })
+      })
+  }
+  
+  // 查看网格详情
+  const viewGridDetail = () => {
+    ElMessage.info('正在跳转到网格管理页面...')
+    setTimeout(() => {
+      ElMessage.success('已跳转到网格管理页面')
+    }, 1000)
+  }
+  
+  // 查看所有项目
+  const viewAllProjects = () => {
+    ElMessage.info('正在跳转到项目管理页面...')
+    setTimeout(() => {
+      ElMessage.success('已跳转到项目管理页面')
+    }, 1000)
   }
   
   const trendChartRef = ref<HTMLElement | null>(null)
@@ -628,20 +767,23 @@
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
   }
 
-  // 添加操作函数
-  const viewSystemDetail = (row: any) => {
-    console.log('查看系统详情', row)
-    // 实现查看详情逻辑
+  // 获取项目状态样式
+  const getProjectStatusType = (status: string) => {
+    switch (status) {
+      case '已完成': return 'success'
+      case '进行中': return 'primary'
+      case '延期': return 'warning'
+      case '暂停': return 'info'
+      default: return 'info'
+    }
   }
 
-  const configSystem = (row: any) => {
-    console.log('配置系统', row)
-    // 实现配置系统逻辑
-  }
-
-  const restartSystem = (row: any) => {
-    console.log('重启系统', row)
-    // 实现重启系统逻辑
+  // 获取进度状态
+  const getProgressStatus = (progress: number, status: string) => {
+    if (status === '延期') return 'exception'
+    if (status === '暂停') return 'warning'
+    if (progress === 100) return 'success'
+    return ''
   }
   </script>
   

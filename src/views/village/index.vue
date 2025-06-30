@@ -394,6 +394,7 @@ import {
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CommonDialog from '@/components/CommonDialog.vue'
 import { villageList, villageMethods, residentList, residentMethods, publicList, publicMethods } from '@/store/data'
+import { baseActions, dataActions } from '@/utils/buttonActions'
 
 // 加载状态
 const loading = ref(false)
@@ -531,14 +532,9 @@ const editVillage = (row: any) => {
 }
 
 const deleteVillage = (row: any) => {
-  ElMessageBox.confirm('确定要删除该村务信息吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
+  dataActions.delete('村务信息', row.name, () => {
     villageMethods.delete(row.id)
-    ElMessage.success('删除成功')
-  }).catch(() => {})
+  })
 }
 
 const handleVillageSubmit = (formData: any) => {
@@ -558,14 +554,14 @@ const handleVillageSubmit = (formData: any) => {
 // 刷新数据
 const refreshData = () => {
   loading.value = true
-  setTimeout(() => {
+  baseActions.refresh(() => {
     loading.value = false
-  }, 1000)
+  })
 }
 
 // 导出数据
 const exportData = () => {
-  console.log('导出数据')
+  baseActions.export('村务管理')
 }
 
 // 获取村民类型对应的标签类型
@@ -675,14 +671,9 @@ const editResident = (row: any) => {
 }
 
 const deleteResident = (row: any) => {
-  ElMessageBox.confirm('确定要删除该村民信息吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
+  dataActions.delete('村民信息', row.name, () => {
     residentMethods.delete(row.id)
-    ElMessage.success('删除成功')
-  }).catch(() => {})
+  })
 }
 
 const handleResidentSubmit = (formData: any) => {
@@ -766,14 +757,9 @@ const editPublic = (row: any) => {
 }
 
 const deletePublic = (row: any) => {
-  ElMessageBox.confirm('确定要删除该公开信息吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
+  dataActions.delete('公开信息', row.title, () => {
     publicMethods.delete(row.id)
-    ElMessage.success('删除成功')
-  }).catch(() => {})
+  })
 }
 
 const handlePublicSubmit = (formData: any) => {

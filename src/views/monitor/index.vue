@@ -332,6 +332,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Refresh, Download, Search, Check } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import type { FormInstance } from 'element-plus'
+import { baseActions, dataActions, eventActions } from '@/utils/buttonActions'
 
 // 自动刷新
 const autoRefresh = ref(false)
@@ -527,159 +528,150 @@ const chartsLoading = ref(true)
 // 添加 currentAlert 变量
 const currentAlert = ref<any>(null)
 
-// 修改初始化图表函数
-const initCharts = () => {
-  chartsLoading.value = true
-  // 确保DOM元素已经渲染
+// 图表数据
+const timeData = ref(['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'])
+const cpuData = ref([30, 40, 35, 50, 45, 60, 55, 45])
+const memoryData = ref([50, 55, 60, 65, 70, 65, 60, 55])
+const storageData = ref([35, 38, 40, 42, 45, 43, 40, 38])
+const networkData = ref([45, 50, 48, 55, 60, 58, 52, 48])
+
+// 渲染图表
+const renderCharts = () => {
   nextTick(() => {
     try {
-      if (!cpuChartRef.value || !memoryChartRef.value || !storageChartRef.value || !networkChartRef.value) {
-        console.warn('Chart DOM elements not ready')
-        return
+      // 确保DOM元素存在后再初始化图表
+      if (cpuChartRef.value) {
+        const cpuChart = echarts.init(cpuChartRef.value)
+        cpuChart.setOption({
+          title: { text: 'CPU使用率趋势' },
+          tooltip: { trigger: 'axis' },
+          xAxis: { type: 'category', data: timeData.value },
+          yAxis: { type: 'value', max: 100 },
+          series: [{ 
+            data: cpuData.value, 
+            type: 'line', 
+            smooth: true,
+            name: 'CPU使用率'
+          }]
+        })
       }
-
-      // CPU使用率图表
-      const cpuChart = echarts.init(cpuChartRef.value)
-      cpuChart.setOption({
-        title: {
-          text: 'CPU使用率趋势'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: {
-          type: 'category',
-          data: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00']
-        },
-        yAxis: {
-          type: 'value',
-          max: 100
-        },
-        series: [{
-          data: [30, 40, 35, 50, 45, 60, 55, 45],
-          type: 'line',
-          smooth: true,
-          areaStyle: {
-            opacity: 0.3
-          }
-        }]
-      })
-
-      // 内存使用率图表
-      const memoryChart = echarts.init(memoryChartRef.value)
-      memoryChart.setOption({
-        title: {
-          text: '内存使用率趋势'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: {
-          type: 'category',
-          data: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00']
-        },
-        yAxis: {
-          type: 'value',
-          max: 100
-        },
-        series: [{
-          data: [50, 55, 60, 65, 70, 65, 60, 55],
-          type: 'line',
-          smooth: true,
-          areaStyle: {
-            opacity: 0.3
-          }
-        }]
-      })
-
-      // 存储使用率图表
-      const storageChart = echarts.init(storageChartRef.value)
-      storageChart.setOption({
-        title: {
-          text: '存储使用率趋势'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: {
-          type: 'category',
-          data: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00']
-        },
-        yAxis: {
-          type: 'value',
-          max: 100
-        },
-        series: [{
-          data: [35, 38, 40, 42, 45, 43, 40, 38],
-          type: 'line',
-          smooth: true,
-          areaStyle: {
-            opacity: 0.3
-          }
-        }]
-      })
-
-      // 网络带宽图表
-      const networkChart = echarts.init(networkChartRef.value)
-      networkChart.setOption({
-        title: {
-          text: '网络带宽趋势'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: {
-          type: 'category',
-          data: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00']
-        },
-        yAxis: {
-          type: 'value',
-          max: 100
-        },
-        series: [{
-          data: [45, 50, 48, 55, 60, 58, 52, 48],
-          type: 'line',
-          smooth: true,
-          areaStyle: {
-            opacity: 0.3
-          }
-        }]
-      })
-
-      // 监听窗口大小变化
-      const handleResize = () => {
-        try {
-          cpuChart.resize()
-          memoryChart.resize()
-          storageChart.resize()
-          networkChart.resize()
-        } catch (error) {
-          console.error('Error resizing charts:', error)
-        }
+      
+      if (memoryChartRef.value) {
+        const memoryChart = echarts.init(memoryChartRef.value)
+        memoryChart.setOption({
+          title: { text: '内存使用率趋势' },
+          tooltip: { trigger: 'axis' },
+          xAxis: { type: 'category', data: timeData.value },
+          yAxis: { type: 'value', max: 100 },
+          series: [{ 
+            data: memoryData.value, 
+            type: 'line', 
+            smooth: true,
+            name: '内存使用率'
+          }]
+        })
       }
-
-      window.addEventListener('resize', handleResize)
-
-      // 组件卸载时清理事件监听
-      onUnmounted(() => {
-        window.removeEventListener('resize', handleResize)
-        try {
-          cpuChart.dispose()
-          memoryChart.dispose()
-          storageChart.dispose()
-          networkChart.dispose()
-        } catch (error) {
-          console.error('Error disposing charts:', error)
-        }
-      })
-
-      chartsLoading.value = false
+      
+      if (storageChartRef.value) {
+        const storageChart = echarts.init(storageChartRef.value)
+        storageChart.setOption({
+          title: { text: '存储使用率趋势' },
+          tooltip: { trigger: 'axis' },
+          xAxis: { type: 'category', data: timeData.value },
+          yAxis: { type: 'value', max: 100 },
+          series: [{ 
+            data: storageData.value, 
+            type: 'line', 
+            smooth: true,
+            name: '存储使用率'
+          }]
+        })
+      }
+      
+      if (networkChartRef.value) {
+        const networkChart = echarts.init(networkChartRef.value)
+        networkChart.setOption({
+          title: { text: '网络带宽趋势' },
+          tooltip: { trigger: 'axis' },
+          xAxis: { type: 'category', data: timeData.value },
+          yAxis: { type: 'value' },
+          series: [{ 
+            data: networkData.value, 
+            type: 'line', 
+            smooth: true,
+            name: '网络带宽'
+          }]
+        })
+      }
     } catch (error) {
-      console.error('Error initializing charts:', error)
+      console.error('图表渲染错误:', error)
+      ElMessage.error('图表渲染失败，请刷新页面重试')
       chartsLoading.value = false
-      ElMessage.error('图表初始化失败')
     }
   })
+}
+
+// 初始化图表
+const initCharts = () => {
+  chartsLoading.value = true
+  
+  try {
+    // 确保数据已准备好
+    updateSystemStatus()
+    
+    // 延迟渲染，确保DOM已完全加载
+    setTimeout(() => {
+      renderCharts()
+      chartsLoading.value = false
+    }, 300)
+    
+    // 监听窗口大小变化
+    const handleResize = () => {
+      try {
+        if (cpuChartRef.value && echarts.getInstanceByDom(cpuChartRef.value)) {
+          echarts.getInstanceByDom(cpuChartRef.value)?.resize()
+        }
+        if (memoryChartRef.value && echarts.getInstanceByDom(memoryChartRef.value)) {
+          echarts.getInstanceByDom(memoryChartRef.value)?.resize()
+        }
+        if (storageChartRef.value && echarts.getInstanceByDom(storageChartRef.value)) {
+          echarts.getInstanceByDom(storageChartRef.value)?.resize()
+        }
+        if (networkChartRef.value && echarts.getInstanceByDom(networkChartRef.value)) {
+          echarts.getInstanceByDom(networkChartRef.value)?.resize()
+        }
+      } catch (error) {
+        console.error('图表调整大小错误:', error)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    // 组件卸载时清理事件监听和图表实例
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize)
+      try {
+        if (cpuChartRef.value && echarts.getInstanceByDom(cpuChartRef.value)) {
+          echarts.getInstanceByDom(cpuChartRef.value)?.dispose()
+        }
+        if (memoryChartRef.value && echarts.getInstanceByDom(memoryChartRef.value)) {
+          echarts.getInstanceByDom(memoryChartRef.value)?.dispose()
+        }
+        if (storageChartRef.value && echarts.getInstanceByDom(storageChartRef.value)) {
+          echarts.getInstanceByDom(storageChartRef.value)?.dispose()
+        }
+        if (networkChartRef.value && echarts.getInstanceByDom(networkChartRef.value)) {
+          echarts.getInstanceByDom(networkChartRef.value)?.dispose()
+        }
+      } catch (error) {
+        console.error('图表销毁错误:', error)
+      }
+    })
+  } catch (error) {
+    console.error('图表初始化错误:', error)
+    ElMessage.error('图表初始化失败，请刷新页面重试')
+    chartsLoading.value = false
+  }
 }
 
 // 搜索
@@ -749,78 +741,60 @@ watch(autoRefresh, (val) => {
 
 // 刷新数据
 const handleRefresh = () => {
-  loading.value = true
-  // 模拟刷新请求
-  setTimeout(() => {
-    loading.value = false
-    ElMessage.success('数据已刷新')
-  }, 1000)
+  chartsLoading.value = true
+  baseActions.refresh(() => {
+    updateSystemStatus()
+    renderCharts()
+    chartsLoading.value = false
+  })
 }
 
 // 添加告警规则
 const handleAddAlert = () => {
-  isEdit.value = false
   alertDialogVisible.value = true
-  alertForm.name = ''
-  alertForm.type = ''
-  alertForm.level = ''
-  alertForm.threshold = 80
-  alertForm.duration = 5
-  alertForm.notifyMethods = ['email']
-  alertForm.description = ''
+  isEdit.value = false
+  resetAlertForm()
 }
 
 // 编辑告警
 const handleEdit = (row: any) => {
-  isEdit.value = true
   alertDialogVisible.value = true
-  alertForm.name = row.name
-  alertForm.type = row.type
-  alertForm.level = row.level
-  alertForm.threshold = row.threshold
-  alertForm.duration = row.duration
-  alertForm.notifyMethods = row.notifyMethods
-  alertForm.description = row.description
+  isEdit.value = true
+  Object.assign(alertForm, row)
 }
 
 // 处理告警
 const handleProcess = (row: any) => {
-  currentAlert.value = row
-  processDialogVisible.value = true
-  processForm.method = ''
-  processForm.comment = ''
+  eventActions.process('告警', () => {
+    row.status = 'resolved'
+    // 其他处理逻辑...
+  })
 }
 
-// 批量处理
+// 批量处理告警
 const handleBatchProcess = () => {
-  if (selectedAlerts.value.length === 0) {
-    ElMessage.warning('请选择要处理的告警')
-    return
-  }
-  currentAlert.value = selectedAlerts.value[0] // 使用第一个选中的告警
-  processDialogVisible.value = true
-  processForm.method = ''
-  processForm.comment = ''
+  eventActions.batchProcess('告警', selectedAlerts.value.length, () => {
+    selectedAlerts.value.forEach(alert => {
+      alert.status = 'resolved'
+    })
+    // 清空选择
+    selectedAlerts.value = []
+  })
 }
 
 // 删除告警
 const handleDelete = (row: any) => {
-  ElMessageBox.confirm(
-    `确认删除告警"${row.content}"吗？`,
-    '警告',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
+  dataActions.delete('告警', row.content, () => {
+    const index = alertList.value.findIndex(item => item.id === row.id)
+    if (index !== -1) {
+      alertList.value.splice(index, 1)
     }
-  ).then(() => {
-    ElMessage.success('删除成功')
   })
 }
 
 // 导出日志
 const handleExport = () => {
-  ElMessage.success('日志导出中')
+  baseActions.export('系统日志')
 }
 
 // 提交告警表单
@@ -860,11 +834,31 @@ const handleSelectionChange = (selection: any[]) => {
   selectedAlerts.value = selection
 }
 
+// 更新系统状态
+const updateSystemStatus = () => {
+  // 随机生成系统状态数据
+  systemStatus.cpu = Math.floor(Math.random() * 30) + 50 // 50-80之间
+  systemStatus.memory = Math.floor(Math.random() * 40) + 40 // 40-80之间
+  systemStatus.storage = Math.floor(Math.random() * 30) + 50 // 50-80之间
+  systemStatus.network = Math.floor(Math.random() * 50) + 30 // 30-80之间
+}
+
+// 重置告警表单
+const resetAlertForm = () => {
+  alertForm.name = ''
+  alertForm.type = ''
+  alertForm.level = ''
+  alertForm.threshold = 80
+  alertForm.duration = 5
+  alertForm.notifyMethods = ['email']
+  alertForm.description = ''
+}
+
 onMounted(() => {
   // 延迟初始化图表，确保DOM已经渲染
   setTimeout(() => {
     initCharts()
-  }, 100)
+  }, 500)
   handleSearch()
 })
 
