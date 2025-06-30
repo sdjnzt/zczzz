@@ -328,7 +328,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed, onUnmounted, nextTick, watch } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { Plus, Refresh, Download, Search, Check } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import type { FormInstance } from 'element-plus'

@@ -287,8 +287,8 @@
   
   <script setup lang="ts">
   import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
+  // import { useRouter } from 'vue-router'
   import * as echarts from 'echarts'
-  import { useRouter } from 'vue-router'
   import { ElMessage, ElMessageBox } from 'element-plus'
   import { 
     Operation, 
@@ -308,7 +308,7 @@
   } from '@element-plus/icons-vue'
   
   // 使用路由
-  const router = useRouter()
+  // const router = useRouter()
   
   // 统计卡片数据
   const statCards = [
@@ -456,7 +456,7 @@
   // 刷新告警方法
   const refreshAlarms = () => {
     // 模拟刷新告警数据
-    const loadingInstance = ElMessage({
+    ElMessage({
       message: '正在加载最新告警信息...',
       duration: 0,
       type: 'info'

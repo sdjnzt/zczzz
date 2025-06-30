@@ -391,7 +391,7 @@ import {
   Top,
   Bottom
 } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import CommonDialog from '@/components/CommonDialog.vue'
 import { villageList, villageMethods, residentList, residentMethods, publicList, publicMethods } from '@/store/data'
 import { baseActions, dataActions } from '@/utils/buttonActions'

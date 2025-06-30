@@ -236,7 +236,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Setting } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
-import { baseActions, dataActions } from '@/utils/buttonActions'
+import { dataActions } from '@/utils/buttonActions'
 
 // 搜索表单
 const searchForm = reactive({
