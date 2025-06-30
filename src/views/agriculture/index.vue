@@ -369,7 +369,7 @@ import {
   Search
 } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { baseActions, dataActions, systemActions } from '@/utils/buttonActions'
+import { baseActions, dataActions } from '@/utils/buttonActions'
 import type { FormInstance, FormRules } from 'element-plus'
 
 // 图表引用
@@ -384,6 +384,7 @@ let trendAnalysisChart: echarts.ECharts | null = null
 
 // 搜索相关
 const searchKeyword = ref('')
+const showSearchBox = ref(false)
 
 // 批量删除相关
 const selectedPolicies = ref<any[]>([])
